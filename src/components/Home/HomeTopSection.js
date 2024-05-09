@@ -3,13 +3,14 @@ import HomeTopSectionItem from "./HomeTopSectionItem";
 import { COLORS } from "../../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import axios from "axios";
+import userContext from "../../context/userContext";
 
 export default function HomeTopSection() {
-  const [networkStatus, setNetworkStatus] = useState(false);
-
+  const { darkMode, setDarkMode, networkStatus, setNetworkStatus } =
+    useContext(userContext);
   useEffect(() => {
     const pingNetwork = async () => {
       try {
@@ -31,21 +32,26 @@ export default function HomeTopSection() {
       }
     };
 
-    // const intervalId = setInterval(pingNetwork, 5000);
+    const intervalId = setInterval(pingNetwork, 5000);
 
-    // return () => {
-    //   clearInterval(intervalId); // Clear the interval
-    //   const source = axios.CancelToken.source();
-    //   source.cancel("Request cancelled by cleanup");
-    // };
+    return () => {
+      clearInterval(intervalId); // Clear the interval
+      const source = axios.CancelToken.source();
+      source.cancel("Request cancelled by cleanup");
+    };
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Quick Status</Text>
-      <TouchableOpacity>
-        <Text>Test</Text>
-      </TouchableOpacity>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: darkMode ? COLORS.SECONDARY_DARK : "white" },
+      ]}
+    >
+      <Text style={[styles.title, { color: darkMode ? "white" : "black" }]}>
+        Quick Status
+      </Text>
+
       <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
         <HomeTopSectionItem title={"water level"} value={"80%"} />
         <HomeTopSectionItem

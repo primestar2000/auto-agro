@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, Text, StyleSheet, StatusBar, BackHandler } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeTopSection from "../components/Home/HomeTopSection";
@@ -6,6 +6,8 @@ import IpAddressSection from "../components/Home/IpAddressSection";
 import Card from "../components/Home/Card";
 import { ScrollView } from "react-native";
 import { sendHttpRequest } from "../helper/RequestHelper";
+import userContext from "../context/userContext";
+import { COLORS } from "../constants/colors";
 
 const Tab = createBottomTabNavigator();
 export default function Home({ navigation }) {
@@ -21,8 +23,14 @@ export default function Home({ navigation }) {
     return () => backHandler.remove(); // Remove the event listener when component unmounts
   }, []);
 
+  const { darkMode, setDarkMode } = useContext(userContext);
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={[
+        styles.container,
+        { backgroundColor: darkMode ? COLORS.PRIMARY_DARK : "white" },
+      ]}
+    >
       <HomeTopSection />
       <IpAddressSection />
       <View style={styles.cardSection}>

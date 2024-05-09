@@ -1,8 +1,55 @@
-import { StyleSheet, Text, View, StatusBar } from "react-native";
-export default function SystemInformation() {
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { COLORS } from "../constants/colors";
+import SocialIconsWrap from "../components/Profile/SocialIconsWrap";
+import { Ionicons } from "@expo/vector-icons";
+import { useContext } from "react";
+import userContext from "../context/userContext";
+export default function SystemInformation({ navigation }) {
+  const { darkMode } = useContext(userContext);
   return (
-    <View style={styles.container}>
-      <Text>System information</Text>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: darkMode ? COLORS.PRIMARY_DARK : "white" },
+      ]}
+    >
+      <TouchableOpacity onPress={() => {}} style={styles.backButton}>
+        <Ionicons size={30} name="chevron-back" />
+      </TouchableOpacity>
+      <View style={styles.topContainer}>
+        <View style={styles.imageWrap}>
+          <Image
+            style={styles.userImage}
+            source={require("../../assets/images/user.jpg")}
+          />
+        </View>
+        <Text style={styles.userName}>Idajili Amos</Text>
+        <Text style={styles.des}>Developer</Text>
+        <Text style={styles.des}>Kogi State, Nigeria</Text>
+      </View>
+      <View style={styles.iconWrap}>
+        <SocialIconsWrap iconName={"logo-facebook"} color={"blue"} />
+        <SocialIconsWrap iconName={"logo-whatsapp"} color={"green"} />
+        <SocialIconsWrap iconName={"logo-instagram"} color={"red"} />
+      </View>
+      <View style={styles.aboutContainer}>
+        <Text style={styles.aboutMeTitle}>About Me</Text>
+        <Text style={styles.aboutMeParagraph}>
+          Certainly! I'm a dedicated developer known for my commitment to
+          excellence and innovative problem-solving. With a blend of creativity
+          and technical prowess, I craft high-quality digital solutions that
+          push the boundaries of what's possible. Whether tackling complex
+          algorithms or refining user interfaces, I bring energy and expertise
+          to every project, making me a valuable asset to any team.
+        </Text>
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -12,7 +59,78 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
+    padding: 20,
+    position: "relative",
+  },
+  topContainer: {
+    paddingTop: 50,
+    width: "100%",
     justifyContent: "center",
+    alignItems: "center",
+  },
+  imageWrap: {
+    width: 130,
+    height: 130,
+  },
+  userImage: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    borderRadius: 200,
+  },
+  userName: {
+    textAlign: "center",
+    fontWeight: "bold",
+    textTransform: "capitalize",
+    fontSize: 20,
+    margin: 10,
+    color: COLORS.TEXT_SECONDARY,
+    letterSpacing: 1.2,
+  },
+  des: {
+    textAlign: "center",
+    fontWeight: "700",
+    color: COLORS.TEXT_SECONDARY,
+    fontSize: 12,
+  },
+  iconWrap: {
+    width: "100",
+    height: 50,
+    marginVertical: 20,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  aboutContainer: {
+    width: "100%",
+    padding: 20,
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 2.84,
+
+    elevation: 1,
+    alignItems: "center",
+  },
+  aboutMeTitle: {
+    fontSize: 18,
+    color: COLORS.TEXT_SECONDARY,
+    fontWeight: "700",
+  },
+  aboutMeParagraph: {
+    width: "100%",
+    textAlign: "justify",
+    letterSpacing: 0.5,
+    color: COLORS.TEXT_SECONDARY,
+    lineHeight: 18,
+    fontSize: 13,
+  },
+  backButton: {
+    position: "absolute",
+    padding: 20,
   },
 });

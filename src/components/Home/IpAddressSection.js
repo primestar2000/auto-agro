@@ -9,10 +9,18 @@ import {
 import { COLORS } from "../../constants/colors";
 import { BlurView } from "react-native-blur";
 import { Ionicons } from "@expo/vector-icons";
+import { useContext } from "react";
+import userContext from "../../context/userContext";
 
 export default function IpAddressSection() {
+  const { darKMode, setDarkMode } = useContext(userContext);
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: darKMode ? COLORS.PRIMARY_DARK : "white" },
+      ]}
+    >
       <Text style={styles.title}>Ip Address</Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <View
@@ -55,8 +63,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     padding: 20,
     elevation: 1, // For the 0px 1px 0px shadow
-    shadowColor: "rgba(17, 17, 26, 0.1)", // Shadow color
-    backgroundColor: "white", // Background color
+    shadowColor: "rgba(17, 17, 26, 0.1)", // Shadow color // Background color
     borderRadius: 20,
   },
   ip: {

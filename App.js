@@ -11,8 +11,12 @@ import HomeTabs from "./src/navigation/navigation";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [networkStatus, setNetworkStatus] = React.useState(false);
+  const [darkMode, setDarkMode] = React.useState(false);
   return (
-    <userContext.Provider value={{}}>
+    <userContext.Provider
+      value={{ darkMode, setDarkMode, networkStatus, setNetworkStatus }}
+    >
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen

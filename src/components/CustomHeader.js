@@ -3,24 +3,34 @@ import { COLORS } from "../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DropDown from "./DropDown.js";
+import { useContext } from "react";
+import userContext from "../context/userContext.js";
 
 export default function CustomHeader() {
   const menuIcon = require("../../assets/menu.svg");
+  const { darkMode, setDarkMode } = useContext(userContext);
   return (
     <View>
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: darkMode ? COLORS.PRIMARY_DARK : "white" },
+        ]}
+      >
         <TouchableOpacity style={styles.menu}>
           <Ionicons name="menu" size={24} color="white" />
         </TouchableOpacity>
         <View style={styles.textColumn}>
-          <Text style={styles.title}>Hello Amos</Text>
+          <Text style={[styles.title, { color: darkMode ? "white" : "black" }]}>
+            Hello Amos
+          </Text>
           <Text style={styles.des}>Welcome Back</Text>
         </View>
         <TouchableOpacity style={styles.dropDownButton}>
           <MaterialCommunityIcons
             name="dots-vertical"
             size={24}
-            color="black"
+            color={darkMode ? "white" : "black"}
           />
         </TouchableOpacity>
       </View>

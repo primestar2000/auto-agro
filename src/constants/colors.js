@@ -20,4 +20,9 @@ export const COLORS = {
   // Other colors
   SUCCESS: "#28a745",
   INFO: "#17a2b8",
+
+  PRIMARY_DARK: "#111827",
+  PRIMARY_LIGHT: "#FFFFFF",
+  SECONDARY_DARK: "#1f2937",
+  SECONDARY_LIGHT: "#fcfcfc",
 };

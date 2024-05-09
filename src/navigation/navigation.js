@@ -8,15 +8,20 @@ import CustomHeader from "../components/CustomHeader";
 import { View } from "react-native";
 import BottomNavIconWrap from "../components/BottomNavIconWrap";
 import AddDevice from "../screens/AddDevice";
+import { useContext } from "react";
+import userContext from "../context/userContext";
 
 export default function HomeTabs() {
   const Tab = createBottomTabNavigator();
-
+  const { darkMode, setDarkMode } = useContext(userContext);
   return (
     <Tab.Navigator
       screenOptions={{
         // tabBarStyle: { backgroundColor: COLORS.SECONDARY },
-        tabBarStyle: { height: 70 },
+        tabBarStyle: {
+          height: 70,
+          backgroundColor: darkMode ? COLORS.PRIMARY_DARK : "white",
+        },
         tabBarLabelStyle: { fontSize: 16 },
         tabBarActiveTintColor: COLORS.TEXT_PRIMARY,
         header: () => {
@@ -85,21 +90,18 @@ export default function HomeTabs() {
         name="SystemInformation"
         component={SystemInformation}
         options={{
+          headerShown: false,
           title: "system",
           tabBarLabelStyle: { fontSize: 16 },
-          tabBarLabel: "About",
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color, size, focused }) => {
             return focused ? (
               <BottomNavIconWrap>
-                <Ionicons
-                  name="information-circle"
-                  size={24}
-                  color={COLORS.PRIMARY}
-                />
+                <Ionicons name="person" size={24} color={COLORS.PRIMARY} />
               </BottomNavIconWrap>
             ) : (
               <Ionicons
-                name="information-circle-outline"
+                name="person-outline"
                 size={24}
                 color={COLORS.PRIMARY}
               />

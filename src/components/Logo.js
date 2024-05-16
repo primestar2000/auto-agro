@@ -1,6 +1,6 @@
 import { Image } from "react-native";
 
-export default function Logo() {
+export default function Logo({ size }) {
   const logo = require("../../assets/icon.png");
-  return <Image source={logo} />;
+  return <Image style={{ width: size, height: size }} source={logo} />;
 }

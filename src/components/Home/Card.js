@@ -1,14 +1,31 @@
 import { Text, View, StyleSheet, Image } from "react-native";
 import { COLORS } from "../../constants/colors";
 import ToggleButton from "../ToggleButton";
+import { useContext } from "react";
+import userContext from "../../context/userContext";
 
-export default function Card({ image, click }) {
+export default function Card({ image, click, title }) {
+  const { darkMode, networkStatus } = useContext(userContext);
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: darkMode ? COLORS.SECONDARY_DARK : "white",
+        },
+      ]}
+    >
       <Image style={styles.image} source={image} />
       <View style={styles.textContainer}>
-        <Text style={styles.title}>Pepper Farm</Text>
-        <ToggleButton click={click} ballSize={20} />
+        <Text
+          style={[
+            styles.title,
+            { color: darkMode ? "white" : COLORS.TEXT_SECONDARY },
+          ]}
+        >
+          {title}
+        </Text>
+        <ToggleButton disabled={!networkStatus} click={click} ballSize={20} />
       </View>
     </View>
   );
@@ -26,7 +43,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
-    elevation: 1,
+    elevation: 4,
     borderRadius: 20,
     overflow: "hidden",
   },

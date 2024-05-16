@@ -8,7 +8,7 @@ import Animated, {
   Easing,
 } from "react-native-reanimated";
 
-export default function ToggleButton({ click, ballSize }) {
+export default function ToggleButton({ click, ballSize, disabled }) {
   const [status, setStatus] = useState(false);
   const transform = useSharedValue(0); // Corrected initialization
 
@@ -32,12 +32,14 @@ export default function ToggleButton({ click, ballSize }) {
   return (
     <TouchableOpacity
       onPress={() => {
-        if (status) {
-          click("OFF");
-        } else {
-          click("ON");
+        if (!disabled) {
+          if (status) {
+            click("OFF");
+          } else {
+            click("ON");
+          }
+          setStatus(!status);
         }
-        setStatus(!status);
       }}
       style={[
         styles.container,
@@ -54,7 +56,7 @@ export default function ToggleButton({ click, ballSize }) {
             width: ballSize,
             height: ballSize,
             borderRadius: ballSize / 2, // Changed to use numeric value
-            backgroundColor: status ? COLORS.PRIMARY : "red",
+            backgroundColor: status ? COLORS.PRIMARY : "gray",
           },
           AnimBallStyle,
         ]}

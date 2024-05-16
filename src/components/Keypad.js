@@ -114,10 +114,10 @@ export default function Keypad({ title, navigation }) {
 const styles = StyleSheet.create({
   title: {
     color: COLORS.TEXT_SECONDARY,
-    fontSize: 20,
+    fontSize: 13,
     textAlign: "center",
     padding: 5,
-    marginVertical: 10,
+    marginVertical: 5,
   },
   container: {
     padding: 20,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   eachPinCont: {
     fontSize: 30,
     width: 40,
-    height: 50,
+    height: 40,
     textAlignVertical: "center",
     textAlign: "center",
     backgroundColor: "#faf7f7",

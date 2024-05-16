@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DropDown from "./DropDown.js";
 import { useContext } from "react";
 import userContext from "../context/userContext.js";
-
+import { Feather } from "@expo/vector-icons";
 export default function CustomHeader() {
   const menuIcon = require("../../assets/menu.svg");
   const { darkMode, setDarkMode } = useContext(userContext);
@@ -26,13 +26,27 @@ export default function CustomHeader() {
           </Text>
           <Text style={styles.des}>Welcome Back</Text>
         </View>
-        <TouchableOpacity style={styles.dropDownButton}>
-          <MaterialCommunityIcons
-            name="dots-vertical"
-            size={24}
-            color={darkMode ? "white" : "black"}
-          />
-        </TouchableOpacity>
+        <View style={styles.topButtonWrap}>
+          <TouchableOpacity
+            style={styles.dropDownButton}
+            onPress={() => {
+              setDarkMode(!darkMode);
+            }}
+          >
+            <Feather
+              name={darkMode ? "sun" : "moon"}
+              size={24}
+              color={darkMode ? "orange" : "black"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.dropDownButton}>
+            <MaterialCommunityIcons
+              name="dots-vertical"
+              size={24}
+              color={darkMode ? "white" : "black"}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
     // Dropdown Button
@@ -46,7 +60,6 @@ const styles = StyleSheet.create({
     elevation: 1, // For the 0px 1px 0px shadow
     shadowColor: "rgba(17, 17, 26, 0.1)", // Shadow color
     backgroundColor: "white", // Background color
-    borderRadius: 10, // Sample border radius
     flexDirection: "row",
     alignItems: "center",
     position: "relative",
@@ -74,14 +87,18 @@ const styles = StyleSheet.create({
     color: COLORS.TEXT_SECONDARY,
   },
   dropDownButton: {
-    width: 20,
+    width: 30,
     height: 30,
-    position: "absolute",
     right: 0,
     marginHorizontal: 20,
   },
   DropDownWrap: {
     position: "absolute",
     flex: 1,
+  },
+  topButtonWrap: {
+    right: 0,
+    position: "absolute",
+    flexDirection: "row",
   },
 });

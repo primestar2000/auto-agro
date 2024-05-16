@@ -68,7 +68,7 @@ export default function HomeTabs() {
           },
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="AddDevice"
         component={AddDevice}
         options={{
@@ -85,7 +85,7 @@ export default function HomeTabs() {
             );
           },
         }}
-      />
+      /> */}
       <Tab.Screen
         name="SystemInformation"
         component={SystemInformation}

@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const sendHttpRequest = async (endpoint) => {
   try {
-    const response = await axios.get(`http://192.168.43.54/${endpoint}`);
+    const response = await axios.get(`http://${endpoint}`);
     return response;
   } catch (error) {
     console.log(error);

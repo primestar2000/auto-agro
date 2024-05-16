@@ -9,26 +9,25 @@ import axios from "axios";
 import userContext from "../../context/userContext";
 
 export default function HomeTopSection() {
-  const { darkMode, setDarkMode, networkStatus, setNetworkStatus } =
+  const { darkMode, setDarkMode, networkStatus, setNetworkStatus, networkIp } =
     useContext(userContext);
+  useEffect(() => {
+    console.log("network status", networkStatus);
+  }, [networkStatus]);
   useEffect(() => {
     const pingNetwork = async () => {
       try {
-        const response = await axios.get(
-          `http://192.168.43.54/${"WifiStatus"}`
-        );
+        const response = await axios.get(`http://${networkIp}/${"WifiStatus"}`);
         if (response.status === 200) {
           if (!networkStatus) {
             setNetworkStatus(true);
           }
-          console.log(networkStatus);
         } else {
           setNetworkStatus(false);
         }
       } catch (error) {
         console.log(error);
         setNetworkStatus(false);
-        console.log(networkStatus);
       }
     };
 
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 20,
-    elevation: 1, // For the 0px 1px 0px shadow
+    elevation: 3, // For the 0px 1px 0px shadow
     shadowColor: "rgba(17, 17, 26, 0.1)", // Shadow color
     backgroundColor: "white", // Background color
     borderRadius: 20,

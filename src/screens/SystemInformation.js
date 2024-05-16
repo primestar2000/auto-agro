@@ -5,14 +5,17 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
+  ImageBackground,
+  Alert,
 } from "react-native";
 import { COLORS } from "../constants/colors";
 import SocialIconsWrap from "../components/Profile/SocialIconsWrap";
 import { Ionicons } from "@expo/vector-icons";
 import { useContext } from "react";
 import userContext from "../context/userContext";
+import { Feather } from "@expo/vector-icons";
 export default function SystemInformation({ navigation }) {
-  const { darkMode } = useContext(userContext);
+  const { darkMode, setDarkMode } = useContext(userContext);
   return (
     <View
       style={[
@@ -20,28 +23,83 @@ export default function SystemInformation({ navigation }) {
         { backgroundColor: darkMode ? COLORS.PRIMARY_DARK : "white" },
       ]}
     >
-      <TouchableOpacity onPress={() => {}} style={styles.backButton}>
-        <Ionicons size={30} name="chevron-back" />
-      </TouchableOpacity>
-      <View style={styles.topContainer}>
+      {/* <TouchableOpacity style={styles.backButton}>
+        <Ionicons
+          size={30}
+          name="chevron-back"
+          color={darkMode ? "white" : COLORS.TEXT_SECONDARY}
+        />
+      </TouchableOpacity> */}
+      <View style={styles.topButtonsWrap}>
+        <TouchableOpacity
+          style={styles.darkModeButton}
+          onPress={() => {
+            setDarkMode(!darkMode);
+          }}
+        >
+          <Feather
+            name={darkMode ? "sun" : "moon"}
+            size={24}
+            color={darkMode ? "orange" : "black"}
+          />
+        </TouchableOpacity>
+      </View>
+      <ImageBackground
+        // source={require("../../assets/images/image1.jpeg")}
+        // blurRadius={10}
+        style={styles.topContainer}
+      >
         <View style={styles.imageWrap}>
           <Image
             style={styles.userImage}
             source={require("../../assets/images/user.jpg")}
           />
         </View>
-        <Text style={styles.userName}>Idajili Amos</Text>
-        <Text style={styles.des}>Developer</Text>
-        <Text style={styles.des}>Kogi State, Nigeria</Text>
-      </View>
+        <Text
+          style={[
+            styles.userName,
+            { color: darkMode ? "white" : COLORS.SECONDARY_DARK },
+          ]}
+        >
+          Idajili Amos
+        </Text>
+        <Text
+          style={[
+            styles.des,
+            { color: darkMode ? "white" : COLORS.SECONDARY_DARK },
+          ]}
+        >
+          Computer Scientist
+        </Text>
+        <Text
+          style={[
+            styles.des,
+            { color: darkMode ? "white" : COLORS.SECONDARY_DARK },
+          ]}
+        >
+          Kogi State, Nigeria
+        </Text>
+      </ImageBackground>
       <View style={styles.iconWrap}>
         <SocialIconsWrap iconName={"logo-facebook"} color={"blue"} />
         <SocialIconsWrap iconName={"logo-whatsapp"} color={"green"} />
         <SocialIconsWrap iconName={"logo-instagram"} color={"red"} />
       </View>
       <View style={styles.aboutContainer}>
-        <Text style={styles.aboutMeTitle}>About Me</Text>
-        <Text style={styles.aboutMeParagraph}>
+        <Text
+          style={[
+            styles.aboutMeTitle,
+            { color: darkMode ? "white" : COLORS.SECONDARY_DARK },
+          ]}
+        >
+          About Me
+        </Text>
+        <Text
+          style={[
+            styles.aboutMeParagraph,
+            { color: darkMode ? "white" : COLORS.SECONDARY_DARK },
+          ]}
+        >
           Certainly! I'm a dedicated developer known for my commitment to
           excellence and innovative problem-solving. With a blend of creativity
           and technical prowess, I craft high-quality digital solutions that
@@ -59,11 +117,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 20,
+    // padding: 20,
     position: "relative",
   },
   topContainer: {
     paddingTop: 50,
+    paddingBottom: 20,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
@@ -132,5 +191,15 @@ const styles = StyleSheet.create({
   backButton: {
     position: "absolute",
     padding: 20,
+  },
+  topButtonsWrap: {
+    position: "absolute",
+    top: 0,
+    width: "100%",
+    zIndex: 10,
+  },
+  darkModeButton: {
+    padding: 20,
+    alignSelf: "flex-end",
   },
 });

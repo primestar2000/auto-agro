@@ -1,5 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import { View, Text, StyleSheet, StatusBar, BackHandler } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  BackHandler,
+  SafeAreaView,
+} from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeTopSection from "../components/Home/HomeTopSection";
 import IpAddressSection from "../components/Home/IpAddressSection";
@@ -23,32 +30,36 @@ export default function Home({ navigation }) {
     return () => backHandler.remove(); // Remove the event listener when component unmounts
   }, []);
 
-  const { darkMode, setDarkMode } = useContext(userContext);
+  const { darkMode, setDarkMode, networkIp } = useContext(userContext);
   return (
-    <ScrollView
-      style={[
-        styles.container,
-        { backgroundColor: darkMode ? COLORS.PRIMARY_DARK : "white" },
-      ]}
-    >
-      <HomeTopSection />
-      <IpAddressSection />
-      <View style={styles.cardSection}>
-        <Card
-          image={require(`../../assets/images/image1.jpeg`)}
-          click={(status) => {
-            sendHttpRequest(`${"Relay4"}${status}`);
-          }}
-        />
-        <Card
-          image={require(`../../assets/images/image2.jpg`)}
-          click={(status) => {
-            sendHttpRequest(`${"Relay4"}${status}`);
-          }}
-        />
-      </View>
-      <StatusBar style="auto" />
-    </ScrollView>
+    <SafeAreaView style={{ flex: 1, width: "100%" }}>
+      <ScrollView
+        style={[
+          styles.container,
+          { backgroundColor: darkMode ? COLORS.PRIMARY_DARK : "white" },
+        ]}
+      >
+        <HomeTopSection />
+        <IpAddressSection />
+        <View style={styles.cardSection}>
+          <Card
+            title={"Pepper Farm"}
+            image={require(`../../assets/images/image1.jpeg`)}
+            click={(status) => {
+              sendHttpRequest(`${networkIp}/${"Relay1"}${status}`);
+            }}
+          />
+          <Card
+            title={"Carrot Farm"}
+            image={require(`../../assets/images/image2.jpg`)}
+            click={(status) => {
+              sendHttpRequest(`${networkIp}/${"Relay2"}${status}`);
+            }}
+          />
+        </View>
+        <StatusBar style="auto" />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

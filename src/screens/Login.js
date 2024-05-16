@@ -8,7 +8,7 @@ export default function Login({ navigation }) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Logo />
+        <Logo size={100} />
         <Text style={styles.companyName}>Auto Agro</Text>
         <Text style={styles.welcomeText}>Welcome Back</Text>
         <Keypad navigation={navigation} title={"Enter 4 digit Pin"} />
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 23,
     fontWeight: "900",
-    marginTop: 15,
+    marginTop: 10,
     color: COLORS.TEXT_SECONDARY,
   },
   companyName: {

@@ -6,13 +6,19 @@ import {
   Switch,
   TextInput,
   Button,
+  Alert,
 } from "react-native";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Card from "../components/Settings/Card";
 import { COLORS } from "../constants/colors";
 import userContext from "../context/userContext";
+import Toast from "../components/Toast";
 export default function Settings() {
-  const { darkMode, setDarkMode } = useContext(userContext);
+  const { darkMode, setDarkMode, setNetworkIp } = useContext(userContext);
+  const [inputedText, setInputedText] = useState("");
+  useEffect(() => {
+    console.log(inputedText);
+  }, [inputedText]);
   return (
     <View
       style={[
@@ -20,6 +26,7 @@ export default function Settings() {
         { backgroundColor: darkMode ? COLORS.PRIMARY_DARK : "white" },
       ]}
     >
+      {/* <Toast /> */}
       <Card title={"preference"}>
         <View style={styles.switchContainer}>
           <Text style={[styles.title, { color: darkMode ? "white" : "black" }]}>
@@ -36,6 +43,9 @@ export default function Settings() {
       <Card title={"NetWork"}>
         <View style={styles.formWrap}>
           <TextInput
+            onChangeText={(input) => {
+              setInputedText(input);
+            }}
             style={[styles.ipInput, { color: darkMode ? "white" : "black" }]}
             placeholder="192.168....."
             placeholderTextColor={"gray"}
@@ -44,6 +54,20 @@ export default function Settings() {
             style={styles.updateButton}
             color={COLORS.PRIMARY}
             title="Update"
+            onPress={() => {
+              if (inputedText != "") {
+                if (inputedText.length >= 12) {
+                  setNetworkIp(inputedText);
+                  Alert.alert(
+                    "You have successfully updated you Network Ip Address"
+                  );
+                } else {
+                  Alert.alert("Invalid Network Ip Address");
+                }
+              } else {
+                Alert.alert("Ip Address Cant be empty");
+              }
+            }}
           />
         </View>
       </Card>
@@ -58,6 +82,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 20,
     rowGap: 10,
+    position: "relative",
+    alignItems: "center",
   },
   switchContainer: {
     flexDirection: "row",

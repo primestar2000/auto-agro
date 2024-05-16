@@ -13,15 +13,22 @@ import { useContext } from "react";
 import userContext from "../../context/userContext";
 
 export default function IpAddressSection() {
-  const { darKMode, setDarkMode } = useContext(userContext);
+  const { darkMode, setDarkMode, networkIp } = useContext(userContext);
   return (
     <View
       style={[
         styles.container,
-        { backgroundColor: darKMode ? COLORS.PRIMARY_DARK : "white" },
+        { backgroundColor: darkMode ? COLORS.SECONDARY_DARK : "white" },
       ]}
     >
-      <Text style={styles.title}>Ip Address</Text>
+      <Text
+        style={[
+          styles.title,
+          { color: darkMode ? "white" : COLORS.TEXT_SECONDARY },
+        ]}
+      >
+        Ip Address
+      </Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <View
           style={{
@@ -43,7 +50,14 @@ export default function IpAddressSection() {
             }}
             blurRadius={10}
           /> */}
-          <Text style={styles.ip}>192.169.43.56</Text>
+          <Text
+            style={[
+              styles.ip,
+              { color: darkMode ? "white" : COLORS.TEXT_SECONDARY },
+            ]}
+          >
+            {networkIp}
+          </Text>
         </View>
         <TouchableOpacity>
           <Ionicons name="eye-off-sharp" size={18} color="black" />
@@ -61,14 +75,15 @@ const styles = StyleSheet.create({
   },
   container: {
     marginVertical: 20,
-    padding: 20,
-    elevation: 1, // For the 0px 1px 0px shadow
+    paddingHorizontal: 20,
+    padding: 10,
+    elevation: 3, // For the 0px 1px 0px shadow
     shadowColor: "rgba(17, 17, 26, 0.1)", // Shadow color // Background color
     borderRadius: 20,
   },
   ip: {
-    fontWeight: "bold",
-    fontSize: 16,
+    fontWeight: "600",
+    fontSize: 13,
     marginTop: 10,
     color: COLORS.TEXT_SECONDARY,
   },

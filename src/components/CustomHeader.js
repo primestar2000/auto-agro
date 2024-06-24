@@ -8,7 +8,7 @@ import userContext from "../context/userContext.js";
 import { Feather } from "@expo/vector-icons";
 export default function CustomHeader() {
   const menuIcon = require("../../assets/menu.svg");
-  const { darkMode, setDarkMode } = useContext(userContext);
+  const { darkMode, setDarkMode, loggedInUser } = useContext(userContext);
   return (
     <View>
       <View
@@ -22,7 +22,7 @@ export default function CustomHeader() {
         </TouchableOpacity>
         <View style={styles.textColumn}>
           <Text style={[styles.title, { color: darkMode ? "white" : "black" }]}>
-            Hello Amos
+            Hello {loggedInUser.displayName ? loggedInUser.displayName : "user"}
           </Text>
           <Text style={styles.des}>Welcome Back</Text>
         </View>

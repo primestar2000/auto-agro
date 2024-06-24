@@ -7,15 +7,8 @@ import Login from "../screens/Login";
 const Stack = createNativeStackNavigator();
 export default function GuestNavigation() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="SignIn">
       <Stack.Screen
-        name="SignIn"
-        component={SignIn}
-        options={{
-          headerShown: false,
-        }}
-      />
-      {/* <Stack.Screen
         name="SignUp"
         component={SignUp}
         options={{
@@ -23,13 +16,20 @@ export default function GuestNavigation() {
         }}
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Login"
         component={Login}
         options={{
           headerShown: false,
         }}
       /> */}
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }

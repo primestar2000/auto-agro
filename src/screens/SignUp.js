@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import Logo from "../components/Logo";
 import { COLORS } from "../constants/colors";
@@ -20,19 +21,26 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import OverLayout from "./Overlayout";
 import { FIREBASE_AUTH } from "../../firebase/firebaseConfig";
+import { verifySignUpCredentials } from "../helper/helperFunction";
+import Loader from "../components/Loader";
+import userContext from "../context/userContext";
+import TopAlert from "../components/TopAlert";
 
 export default function SignUp({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-
-
+  const { globalAlertMessage, setGloabalAlertMessage } =
+    useContext(userContext);
   const provider = new GoogleAuthProvider();
 
   const [loaded] = useFonts({
@@ -43,51 +51,64 @@ export default function SignUp({ navigation }) {
     return null;
   }
 
-  function validatedForm() {
-    if (password === confirmPassword) {
-      return true;
-    }
-  }
+  useEffect(() => {
+    console.log(email, displayName, phoneNumber, password, confirmPassword);
+  }, [email, displayName, phoneNumber, password, confirmPassword]);
 
   async function login() {
-    if (!validatedForm()) {
-      setError("Confirm Password Doesnt Match Password");
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await createUserWithEmailAndPassword(
-        FIREBASE_AUTH,
-        email,
-        password
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-      setError(error.code);
-    } finally {
-      setLoading(false);
+    let verified = verifySignUpCredentials(email, password, confirmPassword);
+    if (verified !== true) {
+      setGloabalAlertMessage({
+        message: verified.error,
+        type: "error",
+        title: "message",
+      });
+    } else {
+      setLoading(true);
+      try {
+        await createUserWithEmailAndPassword(getAuth(), email, password)
+          .then((userCredential) => {
+            return updateProfile(getAuth().currentUser, {
+              displayName: displayName,
+              phoneNumber: phoneNumber,
+            });
+          })
+          .then(() => {
+            console.log("profile updated");
+            Alert.alert("User Profile updated");
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
   return (
     <>
-      {loading && (
-        <OverLayout>
-          <Text style={{ color: "white" }}>Loading .....</Text>
-        </OverLayout>
-      )}
+      {loading && <Loader />}
       <ScrollView style={{ flex: 1, position: "relative" }}>
         <View style={styles.container}>
+          <TopAlert />
           <View style={styles.topSection}>
-            <Logo />
+            <Logo size={100} />
             <Text style={styles.CompanyName}>AutoAgro</Text>
             <Text style={styles.title}>Create An Account</Text>
           </View>
           <KeyboardAvoidingView behavior="padding">
             <View style={styles.midSection}>
-              <InputWrap>
+              <InputWrap iconName={"person"} iconColor={"green"}>
+                <TextInput
+                  placeholder={"Username"}
+                  style={styles.InputField}
+                  onChangeText={(text) => {
+                    setDisplayName(text);
+                  }}
+                />
+              </InputWrap>
+              <InputWrap iconName={"mail-sharp"} iconColor={"green"}>
                 <TextInput
                   placeholder={"Email"}
                   style={styles.InputField}
@@ -96,8 +117,18 @@ export default function SignUp({ navigation }) {
                   }}
                 />
               </InputWrap>
-              <InputWrap>
+              <InputWrap iconName={"call"} iconColor={"green"}>
                 <TextInput
+                  placeholder={"phone"}
+                  style={styles.InputField}
+                  onChangeText={(text) => {
+                    setPhoneNumber(text);
+                  }}
+                />
+              </InputWrap>
+              <InputWrap iconName={"lock-closed"} iconColor={"green"}>
+                <TextInput
+                  secureTextEntry={true}
                   placeholder={"Password"}
                   style={styles.InputField}
                   onChangeText={(text) => {
@@ -105,7 +136,7 @@ export default function SignUp({ navigation }) {
                   }}
                 />
               </InputWrap>
-              <InputWrap>
+              <InputWrap iconName={"key"} iconColor={"green"}>
                 <TextInput
                   placeholder={"Confirm Password"}
                   secureTextEntry={true}
@@ -125,14 +156,14 @@ export default function SignUp({ navigation }) {
                 <Text style={styles.submitText}>Submit</Text>
               </TouchableOpacity>
               <Text style={{ fontSize: 15, textAlign: "center" }}>Or</Text>
-              <TouchableOpacity style={styles.googleButton}>
+              {/* <TouchableOpacity style={styles.googleButton}>
                 <Ionicons
                   name="logo-google"
                   color={"white"}
                   style={{ alignSelf: "flex-start", width: 30, fontSize: 20 }}
                 />
                 <Text style={styles.googleText}>Use Google</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <View
                 style={{
                   flexDirection: "row",
@@ -199,6 +230,7 @@ const styles = StyleSheet.create({
   },
   InputField: {
     fontSize: 16,
+    flex: 1,
   },
   submitButton: {
     paddingVertical: 15,

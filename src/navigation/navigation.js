@@ -22,8 +22,10 @@ export default function HomeTabs() {
           height: 70,
           backgroundColor: darkMode ? COLORS.PRIMARY_DARK : "white",
         },
-        tabBarLabelStyle: { fontSize: 16 },
-        tabBarActiveTintColor: COLORS.TEXT_PRIMARY,
+        tabBarLabelStyle: {
+          fontSize: 16,
+        },
+        tabBarActiveTintColor: "grey",
         header: () => {
           return <CustomHeader />;
         },

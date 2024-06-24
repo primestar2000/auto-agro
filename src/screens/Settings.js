@@ -12,7 +12,7 @@ import { useContext, useEffect, useState } from "react";
 import Card from "../components/Settings/Card";
 import { COLORS } from "../constants/colors";
 import userContext from "../context/userContext";
-import Toast from "../components/Toast";
+import { getAuth, signOut } from "firebase/auth";
 export default function Settings() {
   const { darkMode, setDarkMode, setNetworkIp } = useContext(userContext);
   const [inputedText, setInputedText] = useState("");
@@ -70,6 +70,21 @@ export default function Settings() {
             }}
           />
         </View>
+      </Card>
+      <Card>
+        <Button
+          title="Logout"
+          color={"red"}
+          onPress={() => {
+            signOut(getAuth())
+              .then(() => {
+                Alert.alert("user is signed out");
+              })
+              .catch(() => {
+                Alert.alert("something went wrong");
+              });
+          }}
+        />
       </Card>
       <StatusBar style="auto" />
     </View>

@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { COLORS } from "../../constants/colors";
-import { BlurView } from "react-native-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { useContext } from "react";
 import userContext from "../../context/userContext";

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
+  Linking,
 } from "react-native";
 import { COLORS } from "../constants/colors";
 import SocialIconsWrap from "../components/Profile/SocialIconsWrap";
@@ -15,7 +16,7 @@ import { useContext } from "react";
 import userContext from "../context/userContext";
 import { Feather } from "@expo/vector-icons";
 export default function SystemInformation({ navigation }) {
-  const { darkMode, setDarkMode } = useContext(userContext);
+  const { darkMode, setDarkMode, loggedInUser } = useContext(userContext);
   return (
     <View
       style={[
@@ -52,7 +53,11 @@ export default function SystemInformation({ navigation }) {
         <View style={styles.imageWrap}>
           <Image
             style={styles.userImage}
-            source={require("../../assets/images/user.jpg")}
+            source={
+              loggedInUser.email == "amosidajili30@gmail.com"
+                ? require("../../assets/images/user.jpg")
+                : require("../../assets/images/altUser.png")
+            }
           />
         </View>
         <Text
@@ -61,7 +66,7 @@ export default function SystemInformation({ navigation }) {
             { color: darkMode ? "white" : COLORS.SECONDARY_DARK },
           ]}
         >
-          Idajili Amos
+          {loggedInUser.displayName ? loggedInUser.displayName : "username"}
         </Text>
         <Text
           style={[
@@ -81,9 +86,39 @@ export default function SystemInformation({ navigation }) {
         </Text>
       </ImageBackground>
       <View style={styles.iconWrap}>
-        <SocialIconsWrap iconName={"logo-facebook"} color={"blue"} />
-        <SocialIconsWrap iconName={"logo-whatsapp"} color={"green"} />
-        <SocialIconsWrap iconName={"logo-instagram"} color={"red"} />
+        <SocialIconsWrap
+          iconName={"logo-facebook"}
+          color={"blue"}
+          onPress={async () => {
+            try {
+              await Linking.openURL(`fb://profile/${"amos.benjamin.946"}`); // Try to open in the Facebook app
+            } catch (error) {
+              Alert.alert(
+                "Failed to open Facebook profile. Opening in browser instead."
+              );
+              await Linking.openURL(
+                `https://www.facebook.com/${"amos.benjamin.946"}`
+              ); // Open in the browser if the Facebook app is not available
+            }
+          }}
+        />
+        <SocialIconsWrap
+          iconName={"logo-whatsapp"}
+          color={"green"}
+          onPress={async () => {
+            try {
+              // Use wa.me URL scheme to open a WhatsApp chat
+              await Linking.openURL("https://wa.me/2347054650009");
+            } catch (error) {
+              Alert.alert("Failed to open WhatsApp chat.", error);
+            }
+          }}
+        />
+        <SocialIconsWrap
+          iconName={"logo-instagram"}
+          color={"red"}
+          onPress={() => {}}
+        />
       </View>
       <View style={styles.aboutContainer}>
         <Text

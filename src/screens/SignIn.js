@@ -13,38 +13,56 @@ import Input from "../components/Input";
 import InputWrap from "../components/Input";
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
-// import { signInWithEmailAndPassword } from "firebase/auth";
-// import { FIREBASE_AUTH } from "../../firebase/firebaseConfig";
+import { useContext, useEffect, useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 import OverLayout from "./Overlayout";
+import TopAlert from "../components/TopAlert";
+import { verifyLoginCredentials } from "../helper/helperFunction";
+import userContext from "../context/userContext";
+import { auth } from "../../firebase/firebaseConfig";
 
 export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState();
+  const { globalAlertMessage, setGloabalAlertMessage } =
+    useContext(userContext);
   const [loaded] = useFonts({
     Poppins: require("../../assets/fonts/Poppins/Poppins-Regular.ttf"),
   });
+
+  useEffect(() => {
+    console.log(email, password);
+  }, [email, password]);
 
   if (!loaded) {
     return null;
   }
 
   async function login() {
-    setLoading(true);
-    try {
-      // const response = await signInWithEmailAndPassword(
-      //   FIREBASE_AUTH,
-      //   email,
-      //   password
-      // );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-      setError(error.code);
-    } finally {
-      setLoading(false);
+    let verified = verifyLoginCredentials(email, password);
+    if (verified !== true) {
+      setGloabalAlertMessage({
+        message: verified.error,
+        type: "error",
+        title: "message",
+      });
+    } else {
+      try {
+        setLoading(true);
+        const response = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        setError(error.code);
+      } finally {
+        setLoading(false);
+      }
     }
   }
   return (
@@ -55,14 +73,15 @@ export default function SignIn({ navigation }) {
         </OverLayout>
       )}
       <View style={styles.container}>
+        <TopAlert />
         <View style={styles.topSection}>
-          <Logo />
+          <Logo size={100} />
           <Text style={styles.CompanyName}>AutoAgro</Text>
           <Text style={styles.title}>Sign In</Text>
         </View>
         <View style={styles.midSection}>
           <KeyboardAvoidingView behavior="padding" style={{ rowGap: 10 }}>
-            <InputWrap>
+            <InputWrap iconName={"person"} iconColor={"green"}>
               <TextInput
                 placeholder={"Email"}
                 style={styles.InputField}
@@ -71,7 +90,7 @@ export default function SignIn({ navigation }) {
                 }}
               />
             </InputWrap>
-            <InputWrap>
+            <InputWrap iconName={"key"} iconColor={"green"}>
               <TextInput
                 placeholder={"Password"}
                 style={styles.InputField}
@@ -141,6 +160,7 @@ const styles = StyleSheet.create({
   },
   InputField: {
     fontSize: 20,
+    flex: 1,
   },
   submitButton: {
     paddingVertical: 15,

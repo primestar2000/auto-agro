@@ -2,9 +2,14 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function SocialIconsWrap({ iconName, color }) {
+export default function SocialIconsWrap({ iconName, color, onPress }) {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        onPress();
+      }}
+    >
       <Ionicons name={iconName} size={25} color={color} />
     </TouchableOpacity>
   );

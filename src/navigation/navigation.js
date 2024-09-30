@@ -10,6 +10,8 @@ import BottomNavIconWrap from "../components/BottomNavIconWrap";
 import AddDevice from "../screens/AddDevice";
 import { useContext } from "react";
 import userContext from "../context/userContext";
+import { StatusBar } from "expo-status-bar";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function HomeTabs() {
   const Tab = createBottomTabNavigator();

@@ -9,8 +9,10 @@ import axios from "axios";
 import userContext from "../../context/userContext";
 
 export default function HomeTopSection() {
+  const [randomNumber, setRandomNumber] = useState(0);
   const { darkMode, setDarkMode, networkStatus, setNetworkStatus, networkIp } =
     useContext(userContext);
+
   useEffect(() => {
     console.log("network status", networkStatus);
   }, [networkStatus]);
@@ -40,6 +42,14 @@ export default function HomeTopSection() {
     };
   }, []);
 
+  function getRandomNumber(min, max) {
+    setRandomNumber(Math.floor(Math.random() * (max - min + 1)) + min);
+  }
+
+  // setInterval(() => {
+  //   getRandomNumber(40, 95);
+  // }, 6000);
+
   return (
     <View
       style={[
@@ -63,7 +73,10 @@ export default function HomeTopSection() {
             )
           }
         />
-        <HomeTopSectionItem title={"Network Strength"} value="20%" />
+        <HomeTopSectionItem
+          title={"Network Strength"}
+          value={randomNumber + "%"}
+        />
       </View>
     </View>
   );

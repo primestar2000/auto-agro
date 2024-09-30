@@ -9,6 +9,7 @@ import { Feather } from "@expo/vector-icons";
 export default function CustomHeader() {
   const menuIcon = require("../../assets/menu.svg");
   const { darkMode, setDarkMode, loggedInUser } = useContext(userContext);
+
   return (
     <View>
       <View
@@ -22,7 +23,10 @@ export default function CustomHeader() {
         </TouchableOpacity>
         <View style={styles.textColumn}>
           <Text style={[styles.title, { color: darkMode ? "white" : "black" }]}>
-            Hello {loggedInUser.displayName ? loggedInUser.displayName : "user"}
+            Hello{" "}
+            {loggedInUser.displayName
+              ? loggedInUser.displayName.split(" ")[0]
+              : "user"}
           </Text>
           <Text style={styles.des}>Welcome Back</Text>
         </View>
@@ -39,13 +43,13 @@ export default function CustomHeader() {
               color={darkMode ? "orange" : "black"}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.dropDownButton}>
+          {/* <TouchableOpacity style={styles.dropDownButton}>
             <MaterialCommunityIcons
               name="dots-vertical"
               size={24}
               color={darkMode ? "white" : "black"}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </View>

@@ -143,7 +143,10 @@ export default function SystemInformation({ navigation }) {
           to every project, making me a valuable asset to any team.
         </Text>
       </View>
-      <StatusBar style="auto" />
+      <StatusBar
+        backgroundColor={darkMode ? COLORS.PRIMARY_DARK : "white"}
+        barStyle={darkMode ? "light-content" : "dark-content"}
+      />
     </View>
   );
 }

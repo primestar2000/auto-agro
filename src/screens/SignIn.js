@@ -59,7 +59,12 @@ export default function SignIn({ navigation }) {
         console.log(response);
       } catch (error) {
         console.log(error);
-        setError(error.code);
+        // setError(error.code);
+        setGloabalAlertMessage({
+          message: error.message,
+          type: "error",
+          title: "message",
+        });
       } finally {
         setLoading(false);
       }

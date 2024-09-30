@@ -82,6 +82,11 @@ export default function SignUp({ navigation }) {
           });
       } catch (error) {
         console.log(error);
+        setGloabalAlertMessage({
+          message: error.message,
+          type: "error",
+          title: "message",
+        });
       }
     }
   }

@@ -7,6 +7,7 @@ import {
   BackHandler,
   SafeAreaView,
 } from "react-native";
+import * as NavigationBar from "expo-navigation-bar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeTopSection from "../components/Home/HomeTopSection";
 import IpAddressSection from "../components/Home/IpAddressSection";
@@ -18,6 +19,12 @@ import { COLORS } from "../constants/colors";
 
 const Tab = createBottomTabNavigator();
 export default function Home({ navigation }) {
+  const { darkMode, setDarkMode, networkIp } = useContext(userContext);
+  if (darkMode) {
+    NavigationBar.setBackgroundColorAsync(COLORS.PRIMARY_DARK);
+  } else {
+    NavigationBar.setBackgroundColorAsync("white");
+  }
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
@@ -30,7 +37,6 @@ export default function Home({ navigation }) {
     return () => backHandler.remove(); // Remove the event listener when component unmounts
   }, []);
 
-  const { darkMode, setDarkMode, networkIp } = useContext(userContext);
   return (
     <SafeAreaView style={{ flex: 1, width: "100%" }}>
       <ScrollView
@@ -57,8 +63,11 @@ export default function Home({ navigation }) {
             }}
           />
         </View>
-        <StatusBar style="auto" />
       </ScrollView>
+      <StatusBar
+        backgroundColor={darkMode ? COLORS.PRIMARY_DARK : "white"}
+        barStyle={darkMode ? "light-content" : "dark-content"}
+      />
     </SafeAreaView>
   );
 }

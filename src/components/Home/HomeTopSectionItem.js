@@ -12,7 +12,7 @@ export default function HomeTopSectionItem({ title, value }) {
           fontWeight: "bold",
           padding: 5,
           color: darkMode ? "white" : "black",
-          fontSize: 12,
+          fontSize: 11,
         }}
       >
         {title}

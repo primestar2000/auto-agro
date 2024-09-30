@@ -86,7 +86,10 @@ export default function Settings() {
           }}
         />
       </Card>
-      <StatusBar style="auto" />
+      <StatusBar
+        backgroundColor={darkMode ? COLORS.PRIMARY_DARK : "white"}
+        barStyle={darkMode ? "light-content" : "dark-content"}
+      />
     </View>
   );
 }
